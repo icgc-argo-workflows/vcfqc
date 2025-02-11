@@ -35,6 +35,8 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+tmp*
+*.vcf.gz
 
 # Unit test / coverage reports
 htmlcov/
@@ -75,6 +77,10 @@ docs/_build/
 .pybuilder/
 target/
 
+# Nextflow
+work/
+.nextflow/
+.nextflow*
 # Jupyter Notebook
 .ipynb_checkpoints
 
