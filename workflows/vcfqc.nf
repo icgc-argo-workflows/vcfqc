@@ -289,25 +289,17 @@ workflow VCFQC {
     //cleanup the files if specified
     if (params.cleanup) {
       // Gather files to remove   
-      ch_files = Channel.empty()
-      ch_files = ch_files.mix(STAGE_INPUT.out.meta_files) 
-      ch_files.map{ meta, file1, file2 -> [file1, file2]}
-      .set { ch_files_to_remove1 }
-
-      PAYLOAD_QCMETRICS.out.payload_files
-      .map {meta, payload, files -> files}
-      .unique()
-      .set { ch_files_to_remove2 }
-
       ch_files_to_remove = Channel.empty()
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_SNP_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_INS_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_HET_SNP_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_HOMO_SNP_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_HET_SNP_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_HET_INDEL_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_HOMO_INDEL_COUNT)
-      ch_files_to_remove = ch_files_to_remove.mix(BCF_HOMO_INDEL_COUNT)
+      ch_files_to_remove = ch_files_to_remove.mix(STAGE_INPUT.out.meta_files.map{ meta, file1, file2 -> [file1, file2]})
+      ch_files_to_remove = ch_files_to_remove.mix(PAYLOAD_QCMETRICS.out.payload_files.map {meta, payload, files -> [files]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_SNP_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_INS_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_HET_SNP_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_HOMO_SNP_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_HET_SNP_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_HET_INDEL_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_HOMO_INDEL_COUNT.map{meta ,file -> [file]})
+      ch_files_to_remove = ch_files_to_remove.mix(BCF_HOMO_INDEL_COUNT.map{meta ,file -> [file]})
 
       CLEANUP(ch_files_to_remove.unique().collect(), SONG_SCORE_UPLOAD.out.analysis_id)    
     }

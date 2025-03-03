@@ -25,3 +25,8 @@ nextflow run main.nf -profile rdpc_qa,test_rdpc_qa,standard --api_token 3f3076c8
 aws s3 cp s3://1000genomes-dragen-3.7.6/data/individuals/hg38-graph-based/NA20126/NA20126.hard-filtered.vcf.gz assets/test/NA20126.hard-filtered.vcf.gz --no-sign-request
 
 nextflow run main.nf -profile standard,test
+
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch payloadqcmetrics_vcfqc update payload/qcmetrics
+nf-core subworkflows --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch stageinput_vcfqc update stage_input
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch checkinput_vcfqc update checkinput
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch prepmetrics_vcfqc update prep/metrics

@@ -41,7 +41,7 @@ workflow_process_map = {
     'Variant Call QC': 'vcfqc'
 }
 
-tool_list = ['fastqc', 'cutadapt', 'CollectMultipleMetrics', 'CollectWgsMetrics', 'CollectHsMetrics', 'stats', 'mosdepth', 'CollectOxoGMetrics', 'contamination', 'picard_RnaSeqMetrics', 'hisat2', 'star']
+tool_list = ['bcftools_stats','fastqc', 'cutadapt', 'CollectMultipleMetrics', 'CollectWgsMetrics', 'CollectHsMetrics', 'stats', 'mosdepth', 'CollectOxoGMetrics', 'contamination', 'picard_RnaSeqMetrics', 'hisat2', 'star',]
 
 def calculate_size(file_path):
     return os.stat(file_path).st_size
@@ -66,6 +66,7 @@ def get_files_info(file_to_upload, date_str, analysis_dict, aligner, process_ind
             'files_in_tgz': []
         }
     }
+
 
     if re.match(r'.+?fastqc\.tgz$', file_to_upload):
         file_type = 'fastqc'
@@ -108,6 +109,13 @@ def get_files_info(file_to_upload, date_str, analysis_dict, aligner, process_ind
         file_info['info']['data_subtypes'] = ['Read Characteristics']
         file_info['info'].update({'analysis_tools': ['Picard:CollectOxoGMetrics']})
         file_info['info'].update({'description': 'Picard tool to collects metrics quantifying the error rate resulting from oxidative artifacts.'})
+    ### Dumb solution to address conflicting if stats where bcftools is flagged as "stat". If bcftools evaluates first dont have worry about stats
+    elif re.match(r'.+?bcftools_stats\.tgz$', file_to_upload):
+        file_type = 'variant_metrics'
+        file_info.update({'dataType': 'Variant Call QC'})
+        file_info['info']['data_subtypes'] = ['Library Quality']
+        file_info['info'].update({'analysis_tools': ['Bcftools:Stats']})
+        file_info['info'].update({'description': 'BCFtools stats summary file to collect metrics describing variant metrics.'})
 
     elif re.match(r'.+?stats\.tgz$', file_to_upload):
         file_type = 'samtools_stats'
@@ -150,16 +158,10 @@ def get_files_info(file_to_upload, date_str, analysis_dict, aligner, process_ind
         file_info['info']['data_subtypes'] = ['Library Quality', 'Read Characteristics']
         file_info['info'].update({'analysis_tools': ['STAR:log']})
         file_info['info'].update({'description': 'STAR alignment summary file to collect metrics describing mapping metrics.'})
-    elif re.match(r'.+?bcftools_stats.', file_to_upload): # to be more specific in the future to match other matching styles
-        file_type = 'star'
-        file_info.update({'dataType': 'Variant Call QC'})
-        file_info['info']['data_subtypes'] = ['Library Quality']
-        file_info['info'].update({'analysis_tools': ['Bcftools:Stats']})
-        file_info['info'].update({'description': 'BCFtools stats summary file to collect metrics describing variant metrics.'})
-
     else:
         sys.exit('Error: unknown QC metrics file: %s' % file_to_upload)
 
+    print(file_type)
     # retrieve qc metrics from multiqc_data
     metric_info = multiqc.get(file_type, [])
     metric_info_updated = []
@@ -173,7 +175,7 @@ def get_files_info(file_to_upload, date_str, analysis_dict, aligner, process_ind
     'hisat2': 'supplement',
     'picard_RnaSeqMetrics': 'collectrnaseqmetrics',
     'samtools_stats': 'duplicates_metrics',
-    'bcftools_stats': 'variant_metrics'
+    'variant_metrics': 'variant_metrics'
     } 
 
     if analysis_dict['experiment']['experimental_strategy'].lower() == "rna-seq":
@@ -188,16 +190,14 @@ def get_files_info(file_to_upload, date_str, analysis_dict, aligner, process_ind
         'tgz'
       ])
     else:
-      print(
-        analysis_dict['studyId'],
-        analysis_dict['samples'][0]['donor']['donorId'],
-        analysis_dict['samples'][0]['sampleId'],
-        analysis_dict['experiment']['experimental_strategy'].lower() if analysis_dict['experiment'].get('experimental_strategy') else analysis_dict['experiment']['library_strategy'],
-        date_str,
-        process_indicator,
-        file_type_map.get(file_type, file_type),
-        'tgz'
-      )
+      print(analysis_dict['studyId'])
+      print(analysis_dict['samples'][0]['donor']['donorId'])
+      print(analysis_dict['samples'][0]['sampleId'])
+      print(analysis_dict['experiment']['experimental_strategy'].lower() if analysis_dict['experiment'].get('experimental_strategy') else analysis_dict['experiment']['library_strategy'])
+      print(date_str)
+      print(process_indicator)
+      print(file_type_map.get(file_type,file_type))
+      print('tgz')
       new_fname = '.'.join([
         analysis_dict['studyId'],
         analysis_dict['samples'][0]['donor']['donorId'],
@@ -205,7 +205,7 @@ def get_files_info(file_to_upload, date_str, analysis_dict, aligner, process_ind
         analysis_dict['experiment']['experimental_strategy'].lower() if analysis_dict['experiment'].get('experimental_strategy') else analysis_dict['experiment']['library_strategy'],
         date_str,
         process_indicator,
-        file_type_map.get(file_type, file_type),
+        file_type_map.get(file_type,file_type),
         'tgz'
       ])
 
@@ -262,9 +262,18 @@ def prepare_tarball(sampleId, qc_files, tool_list):
         if tool in f:
           files_to_tar[tool].append(f)
 
+    ##Name clashing b/c stats is too generic
+    if len(files_to_tar["stats"])>0 and len(files_to_tar["bcftools_stats"])>0:
+        for file in files_to_tar["stats"]:
+            print(file)
+            if file in files_to_tar["bcftools_stats"]:
+                files_to_tar["stats"].remove(file)
+
     for tool in tool_list:
+      print(tool,files_to_tar)
       if not files_to_tar[tool]: continue
       tarfile_name = f"{tgz_dir}/{sampleId}.{tool}.tgz"
+      print(tarfile_name)
       with tarfile.open(tarfile_name, "w:gz", dereference=True) as tar:
         for f in files_to_tar[tool]:
           tar.add(f, arcname=os.path.basename(f))
