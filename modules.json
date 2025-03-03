@@ -53,7 +53,7 @@
           "song/manifest": {
             "branch": "main",
             "git_sha": "19ee48fdf1672ef9723e3093531be7ddea3e27ec",
-            "installed_by": ["song_score_upload"]
+            "installed_by": ["modules", "song_score_upload"]
           },
           "song/publish": {
             "branch": "main",
