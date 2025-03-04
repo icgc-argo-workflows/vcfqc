@@ -76,7 +76,7 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
-
+out*
 # Nextflow
 work/
 .nextflow/

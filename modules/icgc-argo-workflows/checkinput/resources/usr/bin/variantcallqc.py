@@ -102,15 +102,15 @@ class RowChecker:
 
 
         tmp_dict={
-            "analysis_type" : row[self._analysis_type_col] if row.get(self._analysis_type_col) else "variant_call",
+            "analysis_type" : row[self._analysis_type_col] if row.get(self._analysis_type_col) else "variant_calling",
             "study_id" : row[self._study_id_col] if row.get(self._study_id_col) else "LOCAL",
             "patient" : row[self._patient_col] if row.get(self._patient_col) else row[self._sample_col],
             "sex" : row[self._sex_col] if row.get(self._sex_col) else "NA",
             "status" : row[self._status_col] if row.get(self._status_col) else "0",
             "sample" : row[self._sample_col],
-            "experiment" : row[self._experiment_col],
+            "experiment" : row[self._experiment_col] if row.get(self._experiment_col) else "WGS",
             "vcf": row[self._vcf_col],
-            "vcf_index": row[self._vcf_index_col],
+            "vcf_index": row[self._vcf_index_col] if row[self._vcf_index_col] else None,
             "analysis_json" : row[self._analysis_json_col] if row.get(self._analysis_json_col) else None,
             }
 
@@ -222,8 +222,8 @@ def sniff_format(handle):
 
 
 def check_samplesheet(file_in, file_out):
-    required_columns = {"sample","experiment"}
-    conditional_columns = {"study_id","sex","patient","status","analysis_json"}
+    required_columns = {"sample","vcf"}
+    conditional_columns = {"analysis_type","study_id","sex","patient","status","analysis_json","experiment","vcf_index"}
 
     # See https://docs.python.org/3.9/library/csv.html#id3 to read up on `newline=""`.
     with file_in.open(newline="") as in_handle:
@@ -278,7 +278,7 @@ Example:
     This function checks that the samplesheet follows the following structure,
 
     analysis_type,study_id,patient,sex,status,sample,experiment,analysis_json
-    variant_call,TEST-QA,DO263089,XX,1,SA624380,WXS,875ef550-e536-4456-9ef5-50e5362456df.analysis.json
+    variant_calling,TEST-QA,DO263089,XX,1,SA624380,WXS,875ef550-e536-4456-9ef5-50e5362456df.analysis.json
 ''',
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
