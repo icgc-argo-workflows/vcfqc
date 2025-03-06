@@ -103,7 +103,6 @@ class RowChecker:
 
         """
         self._validate_analysis_type(row) if row.get(self._analysis_type_col) else ""
-        self._validate_sex(row) if row.get(self._sex_col) else ""
         self._validate_study_id(row) if row.get(self._study_id_col) else ""
         self._validate_patient(row) if row.get(self._patient_col) else ""
         self._validate_sex(row) if row.get(self._sex_col) else ""

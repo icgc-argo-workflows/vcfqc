@@ -49,6 +49,8 @@ class RowChecker:
         vcf_col = 'vcf',
         vcf_index_col = 'vcf_index',
         analysis_json_col = 'analysis_json',
+        variantcaller_col = 'variantcaller',
+        genome_build_col = 'genome_build',
         **kwargs,
     ):
         """
@@ -77,6 +79,8 @@ class RowChecker:
         self._vcf_col = vcf_col
         self._vcf_index_col = vcf_index_col
         self._analysis_json_col = analysis_json_col
+        self._variantcaller_col = variantcaller_col
+        self._genome_build_col = genome_build_col
         self._seen = []
         self.modified = []
 
@@ -96,8 +100,9 @@ class RowChecker:
         self._validate_sex(row) if row.get(self._sex_col) else ""
         self._validate_status(row) if row.get(self._status_col) else ""
         self._validate_sample(row)
-        self._validate_experiment(row)
+        self._validate_experiment(row) if row.get(self._experiment_col) else ""
         self._validate_vcf(row)
+        self._validate_vcf_index(row) if row.get(self._vcf_index_col) else None
         self._validate_analysis_json(row) if row.get(self._analysis_json_col) else ""
 
 
@@ -109,9 +114,11 @@ class RowChecker:
             "status" : row[self._status_col] if row.get(self._status_col) else "0",
             "sample" : row[self._sample_col],
             "experiment" : row[self._experiment_col] if row.get(self._experiment_col) else "WGS",
-            "vcf": row[self._vcf_col],
-            "vcf_index": row[self._vcf_index_col] if row[self._vcf_index_col] else None,
+            "vcf" : row[self._vcf_col],
+            "vcf_index" : row[self._vcf_index_col] if row.get(self._vcf_index_col) else None,
             "analysis_json" : row[self._analysis_json_col] if row.get(self._analysis_json_col) else None,
+            'variantcaller' : row[self._variantcaller_col] if row.get(self._variantcaller_col) else None,
+            'genome_build' : row[self._genome_build_col] if row.get(self._genome_build_col) else None,
             }
 
         self._seen.append(row)
@@ -156,6 +163,10 @@ class RowChecker:
     def _validate_vcf(self,row):
         if len(row[self._vcf_col]) <= 0:
             raise AssertionError("'vcf' input is required.")
+
+    def _validate_vcf_index(self,row):
+        if row[self._vcf_col] not in row[self._vcf_index_col]:
+            raise AssertionError("'vcf_index' naming does not match 'vcf' : %s vs %s ." % (row[self._vcf_index_col],row[self._vcf_col]))
 
     def _validate_analysis_json(self, row):
         """Assert that expected analysis_json is correct."""
@@ -223,7 +234,7 @@ def sniff_format(handle):
 
 def check_samplesheet(file_in, file_out):
     required_columns = {"sample","vcf"}
-    conditional_columns = {"analysis_type","study_id","sex","patient","status","analysis_json","experiment","vcf_index"}
+    conditional_columns = {"analysis_type","study_id","sex","patient","status","analysis_json","experiment","vcf_index",'variantcaller','genome_build'}
 
     # See https://docs.python.org/3.9/library/csv.html#id3 to read up on `newline=""`.
     with file_in.open(newline="") as in_handle:

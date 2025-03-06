@@ -6,8 +6,8 @@
       "modules": {
         "icgc-argo-workflows": {
           "checkinput": {
-            "branch": "stageinput_vcfqc",
-            "git_sha": "a11396acde9ff074b3d2fe37ef7b1965894edf32",
+            "branch": "checkinput_vcfqc",
+            "git_sha": "611a853060b20dd730f9dfa5148d388d797c8874",
             "installed_by": ["stage_input"]
           },
           "cleanup": {
