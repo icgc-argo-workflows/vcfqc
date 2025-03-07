@@ -90,29 +90,35 @@ Then, you need to download [Autosome non-gap regions](#references), and optional
 Now, you can run the workflow using:
 
 ```bash
-nextflow run icgc-argo-workflows/dnaalnqc \
+nextflow run icgc-argo-workflows/vcfqc \
    -profile <standard/singularity> \
    --local_mode true \
-   --input sample_sheet.csv \
-   --fasta <REFERENCE_BASE>/GRCh38_hla_decoy_ebv.fa \
-   --fasta_fai <REFERENCE_BASE>/GRCh38_hla_decoy_ebv.fa.fai \
-   --regions assets/autosomes_non_gap_regions.bed \
+   --input sample_sheet.csv
    --outdir <OUTDIR>
 ```
 
 #### RDPC mode
 You can run the workflow in RDPC mode by using:
 ```bash
-nextflow run icgc-argo-workflows/dnaalnqc \
+nextflow run icgc-argo-workflows/vcfqc \
     -profile <rdpc,rdpc_qa,rdpc_dev>,<standard/singularity> \
     --local_mode false \
     --study_id <STUDY_ID> \
     --analysis_ids <ANALYSIS_IDS> \
-    --api_token <YOUR_API_TOKEN> \ 
-    --fasta <REFERENCE_BASE>/GRCh38_hla_decoy_ebv.fa \
-    --fasta_fai <REFERENCE_BASE>/GRCh38_hla_decoy_ebv.fa.fai \
-    --regions assets/autosomes_non_gap_regions.bed \
-  --outdir <OUTDIR>
+    --api_token <YOUR_API_TOKEN>
+    --outdir <OUTDIR>
+```
+#### With additional arguements
+You can run the workflow in RDPC mode by using:
+```bash
+nextflow run icgc-argo-workflows/vcfqc \
+   -profile <standard/singularity> \
+   --local_mode true \
+   --input sample_sheet.csv \
+   --fasta <REFERENCE_BASE>/GRCh38_hla_decoy_ebv.fa \
+   --fasta_fai <REFERENCE_BASE>/GRCh38_hla_decoy_ebv.fa \
+   --regions autosomes_non_gap_regions.bed \
+   --outdir <OUTDIR>
 ```
 
 > **NOTE**
