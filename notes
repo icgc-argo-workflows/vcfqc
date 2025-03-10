@@ -30,3 +30,10 @@ nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-module
 nf-core subworkflows --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch stageinput_vcfqc update stage_input
 nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch checkinput_vcfqc update checkinput
 nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git --branch prepmetrics_vcfqc update prep/metrics
+
+
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git install payload/qcmetrics --force
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git install prep/metrics --force
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git install prep/sample --force
+nf-core modules --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git install checkinput --force
+nf-core subworkflows --git-remote  https://github.com/icgc-argo-workflows/argo-modules.git install stage_input --force
