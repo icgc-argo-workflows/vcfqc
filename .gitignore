@@ -24,12 +24,12 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
+//MANIFEST
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
+# *.manifest
 *.spec
 
 # Installer logs
@@ -76,7 +76,7 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
-
+out*
 # Nextflow
 work/
 .nextflow/
@@ -175,3 +175,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Development notes
+notes.txt

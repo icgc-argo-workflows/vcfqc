@@ -1,0 +1,2 @@
+analysis_type,study_id,patient,sex,sample,variantcaller,vcf,vcf_index,genome_build,experiment,analysis_json
+variant_calling,EXAMPLE-CA,NA18943,XX,NA18943,DRAGEN,s3://1000genomes-dragen-3.7.6/data/individuals/hg38-graph-based/NA18943/NA18943.hard-filtered.vcf.gz,,GRCh38_hla_decoy_ebv,WGS,
