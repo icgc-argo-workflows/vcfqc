@@ -30,7 +30,7 @@ The workflow has adopted [nf-core](https://nf-co.re/) framework and best practic
 
    ```bash
    nextflow run icgc-argo-workflows/vcfqc \
-     -profile test_rdpc_qa,standard \
+     -profile test_rdpc_qa,standard,rdpc_qa \
      --api_token <YOUR_API_TOKEN> \
      --reference_base <REFERENCE_BASE> \
      --outdir <OUTDIR>

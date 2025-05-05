@@ -27,7 +27,7 @@ from glob import glob
 import csv
 
 ga4gh_wgs_qc_metrics = [
- 
+   'cross_contamination_rate',
    'insert_size_std_deviation',
    'mad_autosome_coverage',
    'mean_autosome_coverage',
@@ -89,12 +89,12 @@ def get_mqc_stats(multiqc, sampleId):
               for ftype in tool_fieldmap.keys():
                 if not ftype == tool_metrics: continue
                 for f1,f2 in tool_fieldmap[ftype].items():
-                  mqc_stats['metrics'][f1] = round(float(row.get(f2)), 4)
+                  mqc_stats['metrics'][f1] = float(row.get(f2))
 
     # convert the fraction to percentage for given fields
     for fn in fra2pct_fields:
       if fn not in mqc_stats['metrics']: continue # <if not mqc_stats['metrics'].get(fn): continue> is wrong as it is possible mqc_stats['metrics'][fn] is 0.0 (it will return false by mistake)
-      new_value = round(float(mqc_stats['metrics'][fn]) * 100, 2)
+      new_value = float(mqc_stats['metrics'][fn]) * 100
       mqc_stats['metrics'].update({
         fn: new_value
       })

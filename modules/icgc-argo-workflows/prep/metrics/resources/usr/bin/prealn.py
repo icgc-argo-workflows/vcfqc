@@ -51,7 +51,7 @@ def get_mqc_stats(multiqc, sampleId):
               for ftype in tool_fieldmap.keys():
                 if not ftype == tool_metrics: continue
                 for f1,f2 in tool_fieldmap[ftype].items():
-                  mqc_stats['metrics'][f1] = round(float(row.get(f2)), 4)
+                  mqc_stats['metrics'][f1] = float(row.get(f2))
 
     # aggregate fastqc and cutadapt metrics into sample level based on multiqc data
     if mqc_stats.get('cutadapt'):
@@ -76,14 +76,14 @@ def get_mqc_stats(multiqc, sampleId):
 
       if r_processed_total > 0:
         mqc_stats['metrics'].update({
-          'r_with_adapters_total': round(r_with_adapters_total),
-          'pct_trimmed_total': round(r_trimmed_total / r_processed_total, 2)
+          'r_with_adapters_total': r_with_adapters_total,
+          'pct_trimmed_total': r_trimmed_total / r_processed_total
         })
       else:
         mqc_stats['metrics'].update({
-          'r1_with_adapters_total': round(r1_with_adapters_total),
-          'r2_with_adapters_total': round(r2_with_adapters_total),
-          'pct_trimmed_total': round(pairs_trimmed_total / pairs_processed_total, 2)
+          'r1_with_adapters_total': r1_with_adapters_total,
+          'r2_with_adapters_total': r2_with_adapters_total,
+          'pct_trimmed_total': pairs_trimmed_total / pairs_processed_total
         })
 
     if mqc_stats.get('fastqc'):
@@ -106,9 +106,9 @@ def get_mqc_stats(multiqc, sampleId):
       
       mqc_stats['metrics'].update(
         {
-          'total_sequences': round(sum(total_sequences)),
-          'sequences_flagged_as_poor_quality': round(sum(sequences_flagged_as_poor_quality)),
-          'pct_gc': round(sum(gc_content) / sum(total_sequences),2)
+          'total_sequences': sum(total_sequences),
+          'sequences_flagged_as_poor_quality': sum(sequences_flagged_as_poor_quality),
+          'pct_gc': sum(gc_content) / sum(total_sequences)
         }
       )
       
@@ -123,7 +123,7 @@ def get_mqc_stats(multiqc, sampleId):
     # convert the fraction to percentage for given fields
     for fn in fra2pct_fields:
       if fn not in mqc_stats['metrics']: continue
-      new_value = round(float(mqc_stats['metrics'][fn]) * 100, 2)
+      new_value = float(mqc_stats['metrics'][fn]) * 100
       mqc_stats['metrics'].update({
         fn: new_value
       })

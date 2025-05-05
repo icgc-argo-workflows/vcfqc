@@ -79,19 +79,19 @@ def get_qc_stats(qc_file,qc_stats):
         if qc_stats['metrics'][argo_metric_mapping["del"]]==0:
             qc_stats['metrics']["ratio_insertion_deletion"]=None
         else:
-            qc_stats['metrics']["ratio_insertion_deletion"]=round(qc_stats['metrics'][argo_metric_mapping["ins"]]/qc_stats['metrics'][argo_metric_mapping["del"]],2)
+            qc_stats['metrics']["ratio_insertion_deletion"]=qc_stats['metrics'][argo_metric_mapping["ins"]]/qc_stats['metrics'][argo_metric_mapping["del"]]
 
     if argo_metric_mapping["het_snp"] in qc_stats['metrics'].keys() and argo_metric_mapping["homo_snp"] in qc_stats['metrics'].keys() and "ratio_heterozygous_homzygous_snv" not in qc_stats['metrics'].keys():
         if qc_stats['metrics'][argo_metric_mapping["homo_snp"]]==0:
             qc_stats['metrics']["ratio_heterozygous_homzygous_snv"]=None
         else:
-            qc_stats['metrics']["ratio_heterozygous_homzygous_snv"]=round(qc_stats['metrics'][argo_metric_mapping["het_snp"]]/qc_stats['metrics'][argo_metric_mapping["homo_snp"]],2)
+            qc_stats['metrics']["ratio_heterozygous_homzygous_snv"]=qc_stats['metrics'][argo_metric_mapping["het_snp"]]/qc_stats['metrics'][argo_metric_mapping["homo_snp"]]
 
     if argo_metric_mapping["het_indel"] in qc_stats['metrics'].keys() and argo_metric_mapping["homo_indel"] in qc_stats['metrics'].keys() and "ratio_heterozygous_homzygous_indel" not in qc_stats['metrics'].keys():
         if qc_stats['metrics'][argo_metric_mapping["homo_indel"]]==0:
             qc_stats['metrics']["ratio_heterozygous_homzygous_indel"]=None
         else:
-            qc_stats['metrics']["ratio_heterozygous_homzygous_indel"]=round(qc_stats['metrics'][argo_metric_mapping["het_indel"]]/qc_stats['metrics'][argo_metric_mapping["homo_indel"]],2)
+            qc_stats['metrics']["ratio_heterozygous_homzygous_indel"]=qc_stats['metrics'][argo_metric_mapping["het_indel"]]/qc_stats['metrics'][argo_metric_mapping["homo_indel"]]
 
 def main():
     parser = argparse.ArgumentParser(description='Tool: prep_metrics')

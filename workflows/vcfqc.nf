@@ -214,8 +214,8 @@ workflow VCFQC {
     }
 
     PREP_METRICS(
-        ch_prep_metrics.map{ meta,files -> [meta,[]]},
-        ch_prep_metrics.map{ meta,files -> files}
+        ch_prep_metrics,
+        []
     )
 
     // Combine channels to determine upload status and payload creation

@@ -8,8 +8,8 @@ process PREP_METRICS {
         'quay.io/biocontainers/python:3.8.3' }"
 
     input:
-    tuple val(meta), path(multiqc)
-    path qc_files // optional
+    tuple val(meta), path(qc_files)
+    path multiqc // optional
 
     output:
     tuple val(meta), path('*.argo_metrics.json')   , emit: metrics_json
