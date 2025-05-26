@@ -1,0 +1,4 @@
+sample,vcf
+HG00100,assets/test/HG00100.hard-filtered.vcf.gz
+HG00844,assets/test/HG00844.hard-filtered.vcf.gz
+HG03722,assets/test/HG03722.hard-filtered.vcf.gz

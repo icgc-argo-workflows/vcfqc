@@ -8,7 +8,7 @@
           "checkinput": {
             "branch": "main",
             "git_sha": "d4806476507d2a3218341f470a165b609b2d1835",
-            "installed_by": ["modules", "stage_input"]
+            "installed_by": ["stage_input"]
           },
           "cleanup": {
             "branch": "main",
@@ -22,7 +22,7 @@
           },
           "prep/metrics": {
             "branch": "main",
-            "git_sha": "d43e7f3216dca77d5e6c5c3940f6543e7cc05dec",
+            "git_sha": "776aed82db95d2db324581aec0ed755e93d533b3",
             "installed_by": ["modules"]
           },
           "prep/sample": {

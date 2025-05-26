@@ -178,3 +178,6 @@ cython_debug/
 
 # Development notes
 notes.txt
+assets/test/header
+assets/test/body
+assets/test/HG03722.hard-filtered.vcf.gz.csi
