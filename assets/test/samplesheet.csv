@@ -1,4 +1,4 @@
 sample,vcf
-HG00100,assets/test/HG00100.hard-filtered.vcf.gz
-HG00844,assets/test/HG00844.hard-filtered.vcf.gz
-HG03722,assets/test/HG03722.hard-filtered.vcf.gz
+HG00100,s3://1000genomes-dragen-3.7.6/data/individuals/hg38-graph-based/HG00100/HG00100.hard-filtered.vcf.gz
+HG00844,s3://1000genomes-dragen-3.7.6/data/individuals/hg38-graph-based/HG00844/HG00844.hard-filtered.vcf.gz
+HG03722,s3://1000genomes-dragen-3.7.6/data/individuals/hg38-graph-based/HG03722/HG03722.hard-filtered.vcf.gz
