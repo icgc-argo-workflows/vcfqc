@@ -1,0 +1,20 @@
+version: 1.2
+workflows:
+  - name: VCFQC
+    subclass: NFL
+    primaryDescriptorPath: /nextflow.config
+    publish: True
+    authors:
+      - name: Linda Xiang
+        email: lxiang@oicr.on.ca
+        orcid: 0000-0002-1377-1125
+      - name: Edmund Su
+        email: esu@oicr.on.ca
+        orcid: 0000-0003-3156-176X 
+    readMePath: /README.md
+    topic: icgc-argo-workflows/vcfqc is a reproducible bioinformatics workflow that can be used to obtain QC metrics from variant calls in VCF/BCF format.
+    filters:
+      branches: 
+        - main
+      tags:
+        - /.*/
