@@ -1,4 +1,4 @@
-## Introduction
+## vcfqc
 
 **icgc-argo-workflows/vcfqc** is a reproducible bioinformatics workflow that can be used to obtain QC metrics from variant calls in VCF/BCF format. It has been created to support quality control efforts within ICGC-ARGO project. The aggregated QC metrics are formed to align with the [GA4GH WGS_Quality_Control_Standards](https://www.ga4gh.org/product/wgs-quality-control-standards/).  
 
