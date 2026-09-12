@@ -34,19 +34,9 @@
 /*
 */
 
-// Set Channels for bcftools view
-intervals_view_ch = params.regions ? Channel.fromPath(params.regions,checkIfExists: true).collect() : Channel.fromPath(params.autosome_non_gap,checkIfExists: true).collect()
-targets_view_ch = params.targets ? Channel.fromPath(params.targets,checkIfExists: true).collect() : []
-samples_view_ch = params.samples ? Channel.fromPath(params.samples,checkIfExists: true).collect() : []
-
-// Set Channels for bcftools stats
-intervals_stats_ch = params.regions ? Channel.fromPath(params.regions,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : Channel.fromPath(params.autosome_non_gap,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect()
-targets_stats_ch = params.targets ? Channel.fromPath(params.targets,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-samples_stats_ch = params.samples ? Channel.fromPath(params.samples,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-exon_stats_ch = params.exons ? Channel.fromPath(params.exons,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-fasta_stats_ch = params.fasta ? Channel.fromPath(params.fasta,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-fasta_fai_stats_ch = params.fasta_fai ? Channel.fromPath(params.fasta_fai,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-
+// NOTE: this channel setup used to live here at script top level. Nextflow's strict syntax
+// (default since 26.04) no longer allows imperative statements outside a workflow/process/
+// function, so this logic now lives at the top of the `workflow VCFQC { }` block below.
 
 /*
 
@@ -82,6 +72,19 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 */
 
 workflow VCFQC {
+
+    // Set Channels for bcftools view
+    intervals_view_ch = params.regions ? Channel.fromPath(params.regions,checkIfExists: true).collect() : Channel.fromPath(params.autosome_non_gap,checkIfExists: true).collect()
+    targets_view_ch = params.targets ? Channel.fromPath(params.targets,checkIfExists: true).collect() : []
+    samples_view_ch = params.samples ? Channel.fromPath(params.samples,checkIfExists: true).collect() : []
+
+    // Set Channels for bcftools stats
+    intervals_stats_ch = params.regions ? Channel.fromPath(params.regions,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : Channel.fromPath(params.autosome_non_gap,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect()
+    targets_stats_ch = params.targets ? Channel.fromPath(params.targets,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
+    samples_stats_ch = params.samples ? Channel.fromPath(params.samples,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
+    exon_stats_ch = params.exons ? Channel.fromPath(params.exons,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
+    fasta_stats_ch = params.fasta ? Channel.fromPath(params.fasta,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
+    fasta_fai_stats_ch = params.fasta_fai ? Channel.fromPath(params.fasta_fai,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
 
     ch_versions = Channel.empty()
 
