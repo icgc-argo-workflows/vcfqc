@@ -80,11 +80,11 @@ workflow VCFQC {
 
     // Set Channels for bcftools stats
     intervals_stats_ch = params.regions ? Channel.fromPath(params.regions,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : Channel.fromPath(params.autosome_non_gap,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect()
-    targets_stats_ch = params.targets ? Channel.fromPath(params.targets,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-    samples_stats_ch = params.samples ? Channel.fromPath(params.samples,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-    exon_stats_ch = params.exons ? Channel.fromPath(params.exons,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-    fasta_stats_ch = params.fasta ? Channel.fromPath(params.fasta,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
-    fasta_fai_stats_ch = params.fasta_fai ? Channel.fromPath(params.fasta_fai,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [{},[]]
+    targets_stats_ch = params.targets ? Channel.fromPath(params.targets,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [[:], []]
+    samples_stats_ch = params.samples ? Channel.fromPath(params.samples,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [[:], []]
+    exon_stats_ch = params.exons ? Channel.fromPath(params.exons,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [[:], []]
+    fasta_stats_ch = params.fasta ? Channel.fromPath(params.fasta,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [[:], []]
+    fasta_fai_stats_ch = params.fasta_fai ? Channel.fromPath(params.fasta_fai,checkIfExists: true).map{filePath -> [filePath.baseName,file(filePath)]}.collect() : [[:], []]
 
     ch_versions = Channel.empty()
 
