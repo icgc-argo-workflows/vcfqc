@@ -22,8 +22,9 @@ The workflow has adopted [nf-core](https://nf-co.re/) framework and best practic
 
    ```bash
    nextflow run icgc-argo-workflows/vcfqc \
-     -profile test,standard \
-     --outdir <OUTDIR>
+      -profile test,standard \
+      --outdir <OUTDIR> \
+      --aws_no_sign_request true
    ```
 
 2. Test the workflow running in `RDPC` mode with a single command if you have access to `RDPC-QA` env and have your valid api_token available:
@@ -105,8 +106,8 @@ nextflow run icgc-argo-workflows/vcfqc \
     --local_mode false \
     --study_id <STUDY_ID> \
     --analysis_ids <ANALYSIS_IDS> \
-    --api_token <YOUR_API_TOKEN>
-    --outdir <OUTDIR>
+    --api_token <YOUR_API_TOKEN> \
+    --outdir <OUTDIR> 
 ```
 #### With additional arguements
 You can run the workflow in RDPC mode by using:
