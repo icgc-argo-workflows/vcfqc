@@ -105,8 +105,9 @@ nextflow run icgc-argo-workflows/vcfqc \
     --local_mode false \
     --study_id <STUDY_ID> \
     --analysis_ids <ANALYSIS_IDS> \
-    --api_token <YOUR_API_TOKEN>
-    --outdir <OUTDIR>
+    --api_token <YOUR_API_TOKEN> \
+    --outdir <OUTDIR> \
+    --aws_no_sign_request true
 ```
 #### With additional arguements
 You can run the workflow in RDPC mode by using:
