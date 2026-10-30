@@ -81,6 +81,7 @@ out*
 work/
 .nextflow/
 .nextflow*
+**/.conda-lock/
 # Jupyter Notebook
 .ipynb_checkpoints
 
