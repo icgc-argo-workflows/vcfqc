@@ -7,7 +7,7 @@
         "icgc-argo-workflows": {
           "checkinput": {
             "branch": "main",
-            "git_sha": "d4806476507d2a3218341f470a165b609b2d1835",
+            "git_sha": "6a2d818aca8ae482403eb5ba8a6bd08496702f56",
             "installed_by": ["stage_input"]
           },
           "cleanup": {
